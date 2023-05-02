@@ -1,4 +1,5 @@
-FROM louislam/uptime-kuma:base-alpine AS build
+ARG BASE_IMAGE=louislam/uptime-kuma:base-alpine
+FROM $BASE_IMAGE AS build
 WORKDIR /app
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
@@ -10,7 +11,7 @@ RUN npm ci --omit=dev
 COPY . .
 RUN chmod +x /app/extra/entrypoint.sh
 
-FROM louislam/uptime-kuma:base-alpine AS release
+FROM $BASE_IMAGE AS release
 WORKDIR /app
 
 # Copy app files from build layer
